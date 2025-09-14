@@ -73,7 +73,7 @@ Dieses Programm erstellt Vorschauen und DXF-Dateien für Trennstege (z. B. für 
 * Doppelklicke auf die Python-Datei oder starte sie über die Konsole:
 
   ```bash
-  python trennsteg_generator.py
+  python trennsteg_generatorV1.py
   ```
 
 ## 2. Werte eingeben
