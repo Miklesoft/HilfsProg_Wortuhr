@@ -1,3 +1,6 @@
+# Mit DXF_Trennsteg_Generator können Gitter erzeugt werden
+# Mit Scriptmaker können Layouts erzeigt werden
+
 # Scriptmaker V2
 
 Hilfsprogramm zum Erstellen von Uhrenvorlagen
