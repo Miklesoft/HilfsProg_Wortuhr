@@ -1,150 +1,144 @@
-Scriptmaker V2
+# Scriptmaker V2
 
 Hilfsprogramm zum Erstellen von Uhrenvorlagen
 by Michael Mahrt
-Version 2.0 (15.08.2025)
+**Version 2.0 (15.08.2025)**
 
-Ergänzungen in V2.0
+## Ergänzungen in V2.0
 
-Export als DXF-Vorlage für Laserbearbeitung
+* Export als DXF-Vorlage für Laserbearbeitung
+* Unterstützung für Minutenpunkte hinzugefügt
 
-Unterstützung für Minutenpunkte hinzugefügt
-
-Beschreibung
+## Beschreibung
 
 Mit diesem Programm lassen sich Layout-Vorlagen für Wortuhren erstellen.
 Es bietet eine grafische Oberfläche, in der Buchstaben in ein 11×10-Raster eingetragen werden.
 Die erstellten Vorlagen können gespeichert, wieder geladen und in verschiedene Formate exportiert werden.
 
-Hauptfunktionen
+### Hauptfunktionen
 
-Rastereditor (11×10) mit Tastatureingabe und Zellenmarkierung
+* Rastereditor (11×10) mit Tastatureingabe und Zellenmarkierung
+* Prüfung von Wörtern (z. B. „ES“, „IST“, „VIERTEL“, „ZWANZIG“) mit farbiger Anzeige
+* Speichern & Laden von Vorlagen als JSON-Dateien
+* **Export:**
 
-Prüfung von Wörtern (z. B. „ES“, „IST“, „VIERTEL“, „ZWANZIG“) mit farbiger Anzeige
+  * DXF Vorlage → CAD-Datei für Laser oder CNC
+  * Icons erstellen → Export als C++ Headerdatei (.h) für Mikrocontroller
+  * Layoutscript erstellen → Erzeugt .hpp-Datei für Uhr-Firmware
 
-Speichern & Laden von Vorlagen als JSON-Dateien
+### Bedienung
 
-Exportmöglichkeiten:
+1. **Programm starten**
+   Python starten mit:
 
-DXF Vorlage: CAD-Datei für Laser oder CNC
+   ```bash
+   python uhr_scriptmakerV2.py
+   ```
 
-Icons erstellen: Export als C++ Headerdatei (.h) für Mikrocontroller
+2. **Buchstaben eingeben**
 
-Layoutscript erstellen: Erzeugt .hpp-Datei für Uhr-Firmware
+   * Mit der Tastatur Buchstaben ins Raster schreiben
+   * Mit der Maus einzelne Felder aktivieren/deaktivieren
 
-Bedienung
-Programm starten
+3. **Optionen**
 
-Python starten mit:
-python uhr_scriptmakerV2.py
+   * Checkboxen für ZWANZIG, DREIVIERTEL und Minutenpunkte aktivieren/deaktivieren
 
-Buchstaben eingeben
+4. **Exportieren**
 
-Mit der Tastatur Buchstaben ins Raster schreiben
+   * **DXF Vorlage:** Speichert eine CAD-Datei für den Laserschnitt
+   * **Icons erstellen:** Exportiert ein Headerfile mit Icons (C++/Arduino)
+   * **Layoutscript erstellen:** Erzeugt ein C++-Skript für die Uhr
 
-Mit der Maus einzelne Felder aktivieren/deaktivieren
+### Hinweis
 
-Optionen
+* Das Programm wurde speziell für Wortuhren im 11×10 Raster entwickelt
+* In den Einstellungen können Reihen und Spalten angepasst werden
 
-Checkboxen für ZWANZIG, DREIVIERTEL und Minutenpunkte aktivieren/deaktivieren
+---
 
-Exportieren
-
-DXF Vorlage: Speichert eine CAD-Datei für den Laserschnitt
-
-Icons erstellen: Exportiert ein Headerfile mit Icons (C++/Arduino)
-
-Layoutscript erstellen: Erzeugt ein C++-Skript für die Uhr
-
-Hinweis
-
-Das Programm wurde speziell für Wortuhren im 11×10 Raster entwickelt.
-In den Einstellungen können Reihen und Spalten angepasst werden.
-
-Trennsteg Generator – Anleitung
+# Trennsteg Generator – Anleitung
 
 Dieses Programm erstellt Vorschauen und DXF-Dateien für Trennstege (z. B. für IKEA-Rahmen).
 
-Benötigte Programme
+## Benötigte Programme
 
-Python 3
+* Python 3
+* Bibliotheken: `ezdxf`, `matplotlib`
+  Installation: `pip install ezdxf matplotlib`
+* Tkinter (ist bei Python normalerweise enthalten)
 
-Bibliotheken: ezdxf, matplotlib (Installation: pip install ezdxf matplotlib)
+## 1. Programm starten
 
-Tkinter (ist bei Python normalerweise enthalten)
+* Doppelklicke auf die Python-Datei oder starte sie über die Konsole:
 
-1. Programm starten
+  ```bash
+  python trennsteg_generator.py
+  ```
 
-Doppelklicke auf die Python-Datei oder starte sie über die Konsole:
-python trennsteg_generator.py
+## 2. Werte eingeben
 
-2. Werte eingeben
-
-Länge [mm]: Breite des Trennstegs
-
-Höhe [mm]: Höhe des Trennstegs
-
-Schlitzbreite [mm]: Breite der einzelnen Schlitze
+* **Länge \[mm]:** Breite des Trennstegs
+* **Höhe \[mm]:** Höhe des Trennstegs
+* **Schlitzbreite \[mm]:** Breite der einzelnen Schlitze
 
 Hinweis: Dezimalzahlen können mit Punkt oder Komma eingegeben werden.
 
-3. Position wählen
+## 3. Position wählen
 
-Senkrecht (Standard)
+* Senkrecht (Standard)
+* Waagerecht
 
-Waagerecht
+## 4. Vorschau anzeigen
 
-4. Vorschau anzeigen
+* Klicke auf "Vorschau"
+* Das Programm zeigt ein Diagramm:
 
-Klicke auf Vorschau
+  * Außenrahmen (blau)
+  * Mittellinie (grün)
+  * Schlitze (rot)
+  * Abstände werden angezeigt
 
-Das Programm zeigt ein Diagramm:
+## 5. DXF speichern
 
-Außenrahmen (blau)
+* Klicke auf "DXF speichern"
+* Wähle einen Speicherort und Dateinamen
+* DXF-Datei enthält:
 
-Mittellinie (grün)
+  * Außenrahmen
+  * Mittellinie
+  * Schlitze
+* Kann in AutoCAD oder LibreCAD geöffnet werden
 
-Schlitze (rot)
+## 6. Einstellungen ändern
 
-Abstände werden angezeigt
+* Klicke auf "Einstellungen"
+* Ändere:
 
-5. DXF speichern
-
-Klicke auf DXF speichern
-
-Wähle einen Speicherort und Dateinamen
-
-DXF-Datei enthält: Außenrahmen, Mittellinie, Schlitze
-
-Kann in AutoCAD oder LibreCAD geöffnet werden
-
-6. Einstellungen ändern
-
-Klicke auf Einstellungen
-
-Ändere: Schlitzabstand [mm], Anzahl Schlitze, Verschiebung [mm] (bei waagerechter Position)
+  * Schlitzabstand \[mm]
+  * Anzahl Schlitze
+  * Verschiebung \[mm] (bei waagerechter Position)
 
 Optionen:
 
-Speichern: Speichert die Einstellungen als JSON-Datei
+* **Speichern** → Speichert die Einstellungen als JSON-Datei
+* **Laden** → Lädt gespeicherte Einstellungen
+* **Übernehmen** → Werte übernehmen
 
-Laden: Lädt gespeicherte Einstellungen
+## 7. Hinweise
 
-Übernehmen: Werte übernehmen
+* Länge und Höhe müssen > 0 sein
 
-7. Hinweise
+* Schlitzbreite ≥ 0.1 mm und ≤ (Schlitzabstand - 1)
 
-Länge und Höhe müssen > 0 sein
+* Anzahl Schlitze: 1 bis 24
 
-Schlitzbreite ≥ 0.1 mm und ≤ (Schlitzabstand - 1)
+* Verschiebung ≤ Schlitzabstand
 
-Anzahl Schlitze: 1 bis 24
+* Fehlerhafte Eingaben werden mit einer Meldung angezeigt
 
-Verschiebung ≤ Schlitzabstand
+* Nach Änderungen in den Einstellungen die Vorschau oder DXF neu erstellen
 
-Fehlerhafte Eingaben werden mit einer Meldung angezeigt.
-Nach Änderungen in den Einstellungen die Vorschau oder DXF neu erstellen.
+## 8. Programm beenden
 
-8. Programm beenden
-
-Klicke auf Beenden
+* Klicke auf "Beenden"
