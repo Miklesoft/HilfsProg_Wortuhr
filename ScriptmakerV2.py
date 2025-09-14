@@ -1,6 +1,6 @@
 ﻿## Hilfsprogramm zum Erstellen von Uhrenvorlagen
 ## by Michael Mahrt
-## V2.0  31.08.2025
+## V2.0  15.08.2025
 ## Ergänzt:
 ## - DXF Vorlage für Laser
 ## - Unterstützung für Minutenpunkte hinzugefügt
