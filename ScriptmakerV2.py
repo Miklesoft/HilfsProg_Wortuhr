@@ -24,7 +24,7 @@ CELL_SIZE = 30
 LABEL_MARGIN_LEFT = 20  # Platz für Zeilenbeschriftung links
 LABEL_MARGIN_TOP = 20   # Platz für Spaltenbeschriftung oben
 
-DEBUG = False # True  # auf False setzen, um alle Debug-Ausgaben zu unterdrücken
+DEBUG = True # True  # auf False setzen, um alle Debug-Ausgaben zu unterdrücken
 
 def debug_print(*args, **kwargs):
     if DEBUG:
@@ -37,7 +37,7 @@ class GridApp(tk.Tk):  # Hauptklasse für die Anwendung
 
         super().__init__()  # Aufruf des Konstruktors der Basisklasse
 
-        self.title("11×10 Scriptmaker by MAHTec (C) M.Mahrt V2.0")  # Fenster Titel
+        self.title("Scriptmaker by MAHTec (C) M.Mahrt V2.1")  # Fenster Titel
         self.configure(bg="#f0f0f0")  # Hintergrundfarbe
 
         self.cells = [["" for _ in range(COLS)] for _ in range(ROWS)] #
@@ -102,7 +102,13 @@ class GridApp(tk.Tk):  # Hauptklasse für die Anwendung
         right_frame = tk.Frame(main_frame, bg="#f0f0f0")
         right_frame.pack(side=tk.LEFT, fill=tk.NONE)
 
-        tk.Label(right_frame, text="Raster 11×10", font=("Helvetica", 14, "bold"), bg="#f0f0f0").pack(pady=(10, 0))
+        #tk.Label(right_frame, text="Raster 11×10", font=("Helvetica", 14, "bold"), bg="#f0f0f0").pack(pady=(10, 0))
+        tk.Label(
+            right_frame,
+             text=f"Raster {COLS}×{ROWS}",   # f-String für Variablen
+            font=("Helvetica", 14, "bold"),
+            bg="#f0f0f0"
+            ).pack(pady=(10, 0))
 
         self.canvas = tk.Canvas(right_frame, width=COLS*CELL_SIZE, height=ROWS*CELL_SIZE,
                                 bg="white", highlightthickness=2, highlightbackground="#999999")
@@ -809,10 +815,14 @@ De10x11_t _de10x11;
             # Hier kannst du Werte übernehmen
             print("Spalten:", cols_var.get())
             print("Reihen:", rows_var.get())
+            global ROWS
             ROWS=int(rows_var.get())
+            global COLS
             COLS=int(cols_var.get())    
             print("Raster anzeigen:", show_grid_var.get())
             settings_win.destroy()
+            self.destroy()           # Fenster schließen
+            GridApp().mainloop()     # neue Instanz starten
 
         tk.Button(settings_win, text="Speichern", command=save_and_close).grid(pady=10)
         tk.Button(settings_win, text="Abbrechen", command=settings_win.destroy).grid()
