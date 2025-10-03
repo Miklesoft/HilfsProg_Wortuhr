@@ -24,7 +24,7 @@ CELL_SIZE = 30
 LABEL_MARGIN_LEFT = 20  # Platz für Zeilenbeschriftung links
 LABEL_MARGIN_TOP = 20   # Platz für Spaltenbeschriftung oben
 
-DEBUG = True # True  # auf False setzen, um alle Debug-Ausgaben zu unterdrücken
+DEBUG = False # True  # auf False setzen, um alle Debug-Ausgaben zu unterdrücken
 
 def debug_print(*args, **kwargs):
     if DEBUG:
