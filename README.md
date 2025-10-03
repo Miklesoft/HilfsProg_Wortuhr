@@ -1,3 +1,6 @@
+# Mit DXF_Trennsteg_Generator können Gitter erzeugt werden
+# Mit Scriptmaker können Layouts erzeugt werden
+
 # Scriptmaker V2
 
 Hilfsprogramm zum Erstellen von Uhrenvorlagen
@@ -73,7 +76,7 @@ Dieses Programm erstellt Vorschauen und DXF-Dateien für Trennstege (z. B. für 
 * Doppelklicke auf die Python-Datei oder starte sie über die Konsole:
 
   ```bash
-  python trennsteg_generator.py
+  python trennsteg_generatorV1.py
   ```
 
 ## 2. Werte eingeben
