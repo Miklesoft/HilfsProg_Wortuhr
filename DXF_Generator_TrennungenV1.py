@@ -13,7 +13,7 @@ SCHLITZABSTAND = 16.6666  # mm Abstand Mitte -> Mitte
 ANZAHL_SCHLITZE = 12      # Anzahl der Schlitze für Gitter  
 VERSCHIEBUNG = 8.3333     # mm für "Waagerecht"-Option
 position = "Senkrecht"    # Radiobutton Auswahl
-
+TRENNSTEGHOEHE = 44.8     # mm Höhe der Trennstege
 # -----------------------------
 # Funktionen
 # -----------------------------
@@ -52,18 +52,18 @@ def draw_preview(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks):
 
     plt.gca().set_aspect('equal', adjustable='box')
     plt.xlim(-0.1*laenge, 1.1*laenge)
-    plt.ylim(-0.1*hoehe, 1.2*hoehe)
+    plt.ylim(-0.1*hoehe, hoehe)
     plt.axis('off')
 
     # Länge und Höhe beschriften (2 Nachkommastellen)
-    plt.text(laenge/2, hoehe*1.05, f"Länge: {laenge:.2f} mm", ha='center', va='bottom', color='blue')
+    plt.text(laenge/2, hoehe, f"Länge: {laenge:.2f} mm", ha='center', va='bottom', color='blue')
     plt.text(-0.05*laenge, hoehe/2, f"Höhe: {hoehe:.2f} mm", ha='right', va='center', rotation='vertical', color='blue')
     plt.text(erstes_schlitzauslinks, y_oben + 0.05*hoehe, f"Schlitzbreite: {schlitzbreite:.2f} mm", ha='left', va='bottom', color='red')
 
     # Abstand von links bis zum 1. Schlitz
     x1 = 0
     x2 = schlitz_mitten[0]
-    y_pos = y_oben + 0.1*hoehe
+    y_pos = y_oben + hoehe
     plt.annotate('', xy=(x1, y_pos), xytext=(x2, y_pos),
                  arrowprops=dict(arrowstyle='<->', color='green'))
     plt.text((x1+x2)/2, y_pos + 0.02*hoehe, f"{(x2-x1):.4f} mm", ha='center', va='bottom', color='green')
@@ -72,7 +72,7 @@ def draw_preview(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks):
     if len(schlitz_mitten) >= 2:
         x1 = schlitz_mitten[-2]
         x2 = schlitz_mitten[-1]
-        y_pos = y_oben + 0.15*hoehe
+        y_pos = y_oben + hoehe
         plt.annotate('', xy=(x1, y_pos), xytext=(x2, y_pos),
                      arrowprops=dict(arrowstyle='<->', color='blue'))
         plt.text((x1+x2)/2, y_pos + 0.02*hoehe, f"{(x2-x1):.4f} mm",
@@ -85,11 +85,11 @@ def draw_preview(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks):
 
 
 def create_dxf(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks, dateipfad):
-    schlitzhoehe = round(hoehe / 2 + 1, 2)
+    schlitzhoehe = round(hoehe / 2 , 2)
     y_unten = round((hoehe - schlitzhoehe) / 2, 2)
     y_oben = round(y_unten + schlitzhoehe, 2)
 
-    doc = ezdxf.new(dxfversion='AC1015', units=3)
+    doc = ezdxf.new(dxfversion='AC1009', units=3)
     msp = doc.modelspace()
 
     msp.add_lwpolyline([(0, 0), (laenge, 0), (laenge, hoehe),
@@ -121,7 +121,7 @@ def create_dxf(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks, dateipfad):
 def start_preview():
     try:
         laenge = float(entry_laenge.get().replace(',', '.'))
-        hoehe = float(entry_hoehe.get().replace(',', '.'))
+        hoehe = float(entry_hoehe.get().replace(',', '.'))*2
         schlitzbreite = float(entry_schlitz.get().replace(',', '.'))
 
         # --- Prüfungen ---
@@ -144,7 +144,7 @@ def start_preview():
 def start_save():
     try:
         laenge = float(entry_laenge.get().replace(',', '.'))
-        hoehe = float(entry_hoehe.get().replace(',', '.'))
+        hoehe = float(entry_hoehe.get().replace(',', '.'))*2
         schlitzbreite = float(entry_schlitz.get().replace(',', '.'))
 
         # --- Prüfungen Eingabewerte ---
@@ -361,7 +361,7 @@ entry_laenge.insert(0, "239.50")
 tk.Label(root, text="Höhe [mm]").grid(row=2, column=0, sticky="e")
 entry_hoehe = tk.Entry(root)
 entry_hoehe.grid(row=2, column=1)
-entry_hoehe.insert(0, "89.60")
+entry_hoehe.insert(0, "44.8")
 
 tk.Label(root, text="Schlitzbreite [mm]").grid(row=3, column=0, sticky="e")
 entry_schlitz = tk.Entry(root)
@@ -387,5 +387,17 @@ tk.Button(root, text="Vorschau", command=start_preview).grid(row=5, column=0, pa
 tk.Button(root, text="DXF speichern", command=start_save).grid(row=5, column=1, pady=10)
 tk.Button(root, text="Einstellungen", command=open_settings).grid(row=5, column=2, pady=10)
 tk.Button(root, text="Beenden", command=root.destroy).grid(row=5, column=3, pady=10)
+
+def verdopple_hoehe(event=None):
+    try:
+        hoehe = float(entry_hoehe.get())
+        hoehe = hoehe * 2
+        entry_hoehe.delete(0, tk.END)
+        entry_hoehe.insert(0, f"{hoehe:.2f}")
+    except ValueError:
+        pass  # Ignoriert ungültige Eingaben
+
+# Event-Bindung: wenn Enter gedrückt wird
+# entry_hoehe.bind("<FocusOut>", verdopple_hoehe)
 
 root.mainloop()
