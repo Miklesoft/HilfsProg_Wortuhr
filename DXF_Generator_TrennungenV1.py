@@ -1,8 +1,25 @@
+# DXF_Generator_TrennungenV1.py
+# Trennsteg Generator 
+# Erstellt von Michael Mahrt   
+# Version 1.1 - 2025-10-31
+# Benötigte Bibliotheken: ezdxf, matplotlib, tkinter    
+# Beschreibung: Dieses Skript generiert DXF-Dateien für Trennstege mit Schlitzen
+#               basierend auf benutzerdefinierten Abmessungen und Einstellungen.
+#              Es bietet eine Vorschaufunktion und ermöglicht das Speichern von Einstellungen.
+# 
+# Lizenz: Dieses Skript ist Open Source und darf frei verwendet und modifiziert werden.
+#        Der Autor übernimmt keine Haftung für Schäden, die durch die Nutzung dieses Skripts entstehen.
+# ------------------------------------------------------
+# Importierte Bibliotheken
+
 import ezdxf
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import json
+import Pmw
+
+# -----------------------------
 
 plt.rcParams['toolbar'] = 'None'   # keine Toolbar (keine Save/Configure-Buttons)
 
@@ -349,6 +366,7 @@ root = tk.Tk()
 root.title("Trennsteg Generator by Michael Mahrt")
 root.geometry("460x200")
 
+Pmw.initialise(root)
 # Überschrift
 tk.Label(root, text="Trennsteg Generator", font=("Arial", 16, "bold")).grid(row=0, column=0, columnspan=4, pady=10)
 
@@ -357,24 +375,32 @@ tk.Label(root, text="Länge [mm]").grid(row=1, column=0, sticky="e")
 entry_laenge = tk.Entry(root)
 entry_laenge.grid(row=1, column=1)
 entry_laenge.insert(0, "239.50")
+Pmw.Balloon(root).bind(entry_laenge, "Hier die Länge des Trennstegs in mm eingeben")
 
 tk.Label(root, text="Höhe [mm]").grid(row=2, column=0, sticky="e")
 entry_hoehe = tk.Entry(root)
 entry_hoehe.grid(row=2, column=1)
 entry_hoehe.insert(0, "44.8")
+Pmw.Balloon(root).bind(entry_hoehe, "Hier die Höhe des Trennstegs in mm eingeben")
 
 tk.Label(root, text="Schlitzbreite [mm]").grid(row=3, column=0, sticky="e")
 entry_schlitz = tk.Entry(root)
 entry_schlitz.grid(row=3, column=1)
 entry_schlitz.insert(0, "0.3")
+Pmw.Balloon(root).bind(entry_schlitz, "Hier die Breite der Schlitze in mm eingeben")
 
 # Radiobuttons
 position_var = tk.StringVar(value="Senkrecht")
 def update_position():
     global position
     position = position_var.get()
-tk.Radiobutton(root, text="Senkrecht   ", variable=position_var, value="Senkrecht", command=update_position).grid(row=1, column=2)
-tk.Radiobutton(root, text="Waagerecht", variable=position_var, value="Waagerecht", command=update_position).grid(row=2, column=2)
+r1=tk.Radiobutton(root, text="Senkrecht   ", variable=position_var, value="Senkrecht", command=update_position)
+r1.grid(row=1, column=2)
+r2=tk.Radiobutton(root, text="Waagerecht", variable=position_var, value="Waagerecht", command=update_position)
+r2.grid(row=2, column=2)
+
+Pmw.Balloon(root).bind(r1, "Bei Wahl Senkrecht werden die Schlitze mittig angeordnet.")
+Pmw.Balloon(root).bind(r2, "Bei Wahl Waagerecht werden die Schlitze verschoben angeordnet.")
 
 # Vorgaben-Label
 label_vorgaben = tk.Label(root,
