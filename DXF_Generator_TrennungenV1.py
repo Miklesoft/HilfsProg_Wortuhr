@@ -21,7 +21,7 @@ import Pmw
 
 # -----------------------------
 
-plt.rcParams['toolbar'] = 'None'   # keine Toolbar (keine Save/Configure-Buttons)
+#plt.rcParams['toolbar'] = 'None'   # keine Toolbar (keine Save/Configure-Buttons)
 
 # -----------------------------
 # Globale Vorgaben für IKEA Rahmen 250x250
@@ -106,7 +106,7 @@ def create_dxf(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks, dateipfad):
     y_unten = round((hoehe - schlitzhoehe) / 2, 2)
     y_oben = round(y_unten + schlitzhoehe, 2)
 
-    doc = ezdxf.new(dxfversion='AC1009', units=3)
+    doc = ezdxf.new(dxfversion='AC1015', units=3)
     msp = doc.modelspace()
 
     msp.add_lwpolyline([(0, 0), (laenge, 0), (laenge, hoehe),
