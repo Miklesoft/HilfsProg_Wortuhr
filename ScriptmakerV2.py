@@ -1,9 +1,11 @@
 ﻿## Hilfsprogramm zum Erstellen von Uhrenvorlagen
 ## by Michael Mahrt
-## V2.0  15.08.2025
+## V2.1  15.08.2025
 ## Ergänzt:
 ## - DXF Vorlage für Laser
 ## - Unterstützung für Minutenpunkte hinzugefügt
+## TODO:
+## !! IST wird falsch gefunden wenn im Namen enthalten z.B: ChrISTtian
 
 
 # -*- coding: utf-8 -*-
@@ -23,7 +25,7 @@ ROWS = 10
 CELL_SIZE = 30
 LABEL_MARGIN_LEFT = 20  # Platz für Zeilenbeschriftung links
 LABEL_MARGIN_TOP = 20   # Platz für Spaltenbeschriftung oben
-
+RAHMENGROSS = 250  # Rahmen in mm für DXF Export
 DEBUG = False # True  # auf False setzen, um alle Debug-Ausgaben zu unterdrücken
 
 def debug_print(*args, **kwargs):
@@ -37,7 +39,7 @@ class GridApp(tk.Tk):  # Hauptklasse für die Anwendung
 
         super().__init__()  # Aufruf des Konstruktors der Basisklasse
 
-        self.title("Scriptmaker by MAHTec (C) M.Mahrt V2.1")  # Fenster Titel
+        self.title("Scriptmaker by MAHTec (C) M.Mahrt V2.2")  # Fenster Titel
         self.configure(bg="#f0f0f0")  # Hintergrundfarbe
 
         self.cells = [["" for _ in range(COLS)] for _ in range(ROWS)] #
@@ -89,6 +91,7 @@ class GridApp(tk.Tk):  # Hauptklasse für die Anwendung
             variable=self.minanzeige,
             command=self.check_words  # <-- hier
         )
+
         # Anzahl der Zeilen und Spalten für Labels
         max_rows = 12
         max_cols = (len(self.words) + max_rows - 1) // max_rows  # runden auf volle Spalten
@@ -97,6 +100,8 @@ class GridApp(tk.Tk):  # Hauptklasse für die Anwendung
         cb1.grid(row=max_rows, column=0, columnspan=max_cols, sticky="w", padx=7, pady=5)
         cb2.grid(row=max_rows+1, column=0, columnspan=max_cols, sticky="w", padx=7, pady=1)
         cb3.grid(row=max_rows+2, column=0, columnspan=max_cols, sticky="w", padx=7, pady=1)
+
+
 
         # Raster rechts
         right_frame = tk.Frame(main_frame, bg="#f0f0f0")
@@ -692,10 +697,22 @@ De10x11_t _de10x11;
 
         row_count = ROWS
         col_count = COLS
-        rahmen_mm = 250
-        x_spacing = 16.6666
-        y_spacing = 16.6666
-        text_height = 11.55
+        
+        if RAHMENGROSS == 250:
+            rahmen_mm = 250
+            x_spacing = 16.6666
+            y_spacing = 16.6666
+            text_height = 11.55
+        else:   
+            rahmen_mm = 500
+            x_spacing = 16.6666*2
+            y_spacing = 16.6666*2
+            text_height = 20.55
+
+        # rahmen_mm = 250
+        # x_spacing = 16.6666
+        # y_spacing = 16.6666
+        # text_height = 11.55
         filename = "buchstaben.dxf"
 
         self.create_letter_grid(letters, row_count, col_count, x_spacing, y_spacing, text_height, rahmen_mm, filename)
@@ -709,7 +726,8 @@ De10x11_t _de10x11;
 
         # Textstil anlegen (falls nicht vorhanden)
         if "myStandard" not in doc.styles:
-            doc.styles.new("myStandard", dxfattribs={"font": "MS UI Gothic.ttf"})
+           # doc.styles.new("myStandard", dxfattribs={"font": "MS UI Gothic.ttf"})
+            doc.styles.new("myStandard", dxfattribs={"font": "MS Gothic.ttf"})
 
         # Buchstaben platzieren
         for row in range(row_count):
@@ -723,7 +741,10 @@ De10x11_t _de10x11;
 
                     if letter =="Ü" or letter =="Ö" or letter =="Ä":
                         old_text_height = text_height
-                        text_height = text_height * 0.8571
+                        if RAHMENGROSS == 250:
+                            text_height = text_height * 0.8571
+                        else:
+                            text_height = text_height * 0.93
                         y = y - ((old_text_height-text_height) / 2)
                         Buchbreite ="1.15"
                         

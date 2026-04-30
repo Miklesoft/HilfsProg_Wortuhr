@@ -1,7 +1,9 @@
 # DXF_Generator_TrennungenV1.py
 # Trennsteg Generator 
 # Erstellt von Michael Mahrt   
-# Version 1.1 - 2025-10-31
+# Version 1.2 - 2026-11-17
+# Geänder: Speichern als Acad R12
+#  ------------------------------------------------------
 # Benötigte Bibliotheken: ezdxf, matplotlib, tkinter    
 # Beschreibung: Dieses Skript generiert DXF-Dateien für Trennstege mit Schlitzen
 #               basierend auf benutzerdefinierten Abmessungen und Einstellungen.
@@ -98,41 +100,99 @@ def draw_preview(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks):
     plt.subplots_adjust(left=0.05, right=0.95, top=0.95, bottom=0.05)
     plt.show()
 
-
-
-
 def create_dxf(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks, dateipfad):
-    schlitzhoehe = round(hoehe / 2 , 2)
+    schlitzhoehe = round(hoehe / 2, 2)
     y_unten = round((hoehe - schlitzhoehe) / 2, 2)
     y_oben = round(y_unten + schlitzhoehe, 2)
 
-    doc = ezdxf.new(dxfversion='AC1015', units=3)
+    # DXF R12 (AutoSketch 10 kompatibel)
+    doc = ezdxf.new(dxfversion='AC1009')
+    doc.units = 3  # mm (wird von R12 evtl. ignoriert)
     msp = doc.modelspace()
 
-    msp.add_lwpolyline([(0, 0), (laenge, 0), (laenge, hoehe),
-                        (0, hoehe), (0, 0)], close=True, dxfattribs={"layer": "Kontur"})
+    # Außenkontur
+    msp.add_polyline2d(
+        [
+            (0, 0),
+            (laenge, 0),
+            (laenge, hoehe),
+            (0, hoehe),
+            (0, 0),  # schließen
+        ],
+        dxfattribs={"layer": "Kontur"}
+    )
 
     x = erstes_schlitzauslinks
     linie_x_start = 0
+
     for i in range(ANZAHL_SCHLITZE):
-        msp.add_line((linie_x_start, hoehe/2),
-                     (x - schlitzbreite/2, hoehe/2),
-                     dxfattribs={"layer": "Mittellinie"})
-        msp.add_lwpolyline([
-            (x - schlitzbreite/2, y_unten),
-            (x + schlitzbreite/2, y_unten),
-            (x + schlitzbreite/2, y_oben),
-            (x - schlitzbreite/2, y_oben),
-            (x - schlitzbreite/2, y_unten)
-        ], close=True, dxfattribs={"layer": "Schlitze"})
-        linie_x_start = x + schlitzbreite/2
+        # Mittellinie links
+        msp.add_line(
+            (linie_x_start, hoehe / 2),
+            (x - schlitzbreite / 2, hoehe / 2),
+            dxfattribs={"layer": "Mittellinie"}
+        )
+
+        # Schlitz
+        msp.add_polyline2d(
+            [
+                (x - schlitzbreite / 2, y_unten),
+                (x + schlitzbreite / 2, y_unten),
+                (x + schlitzbreite / 2, y_oben),
+                (x - schlitzbreite / 2, y_oben),
+                (x - schlitzbreite / 2, y_unten),  # schließen
+            ],
+            dxfattribs={"layer": "Schlitze"}
+        )
+
+        linie_x_start = x + schlitzbreite / 2
         x += SCHLITZABSTAND
 
-    msp.add_line((linie_x_start, hoehe/2),
-                 (laenge, hoehe/2), dxfattribs={"layer": "Mittellinie"})
+    # Mittellinie rechts
+    msp.add_line(
+        (linie_x_start, hoehe / 2),
+        (laenge, hoehe / 2),
+        dxfattribs={"layer": "Mittellinie"}
+    )
 
     doc.saveas(dateipfad)
     messagebox.showinfo("Erfolg", f"DXF gespeichert unter:\n{dateipfad}")
+
+
+
+# def create_dxf(laenge, hoehe, schlitzbreite, erstes_schlitzauslinks, dateipfad):
+#     schlitzhoehe = round(hoehe / 2 , 2)
+#     y_unten = round((hoehe - schlitzhoehe) / 2, 2)
+#     y_oben = round(y_unten + schlitzhoehe, 2)
+
+#     # doc = ezdxf.new(dxfversion='AC1015', units=3) # Lightburn
+#     doc = ezdxf.new(dxfversion='AC1009', units=3) # Autosketcher
+#     msp = doc.modelspace()
+
+#     msp.add_lwpolyline([(0, 0), (laenge, 0), (laenge, hoehe),
+#                         (0, hoehe), (0, 0)], close=True, dxfattribs={"layer": "Kontur"})
+
+#     x = erstes_schlitzauslinks
+#     linie_x_start = 0
+#     for i in range(ANZAHL_SCHLITZE):
+#         msp.add_line((linie_x_start, hoehe/2),
+#                      (x - schlitzbreite/2, hoehe/2),
+#                      dxfattribs={"layer": "Mittellinie"})
+#         msp.add_lwpolyline([
+#             (x - schlitzbreite/2, y_unten),
+#             (x + schlitzbreite/2, y_unten),
+#             (x + schlitzbreite/2, y_oben),
+#             (x - schlitzbreite/2, y_oben),
+#             (x - schlitzbreite/2, y_unten)
+#         ], close=True, dxfattribs={"layer": "Schlitze"})
+#         linie_x_start = x + schlitzbreite/2
+#         x += SCHLITZABSTAND
+
+#     msp.add_line((linie_x_start, hoehe/2),
+#                  (laenge, hoehe/2), dxfattribs={"layer": "Mittellinie"})
+
+#     doc.saveas(dateipfad)
+#     messagebox.showinfo("Erfolg", f"DXF gespeichert unter:\n{dateipfad}")
 
 
 def start_preview():
