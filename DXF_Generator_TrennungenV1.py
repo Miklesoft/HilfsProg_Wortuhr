@@ -455,9 +455,9 @@ def open_settings():
 
         label_vorgaben.config(
             text=f"SCHLITZABSTAND = {SCHLITZABSTAND} mm | "
-                 f"ANZAHL_SCHLITZE = {ANZAHL_SCHLITZE} | "
+                 f"ANZAHL_SCHLITZE = {ANZAHL_SCHLITZE}\n"
                  f"VERSCHIEBUNG = {VERSCHIEBUNG} mm | "
-                 f"LEDBREITE = {LEDBREITE} mm"
+                 f"LED-BREITE = {LEDBREITE} mm"
         )
 
         settings.destroy()
@@ -550,7 +550,7 @@ Pmw.Balloon(root).bind(chk_aussparung, "Aktiviert eine Aussparung im Trennsteg")
 
 label_vorgaben = tk.Label(root,
     text=f"SCHLITZABSTAND = {SCHLITZABSTAND} mm | ANZAHL_SCHLITZE = {ANZAHL_SCHLITZE}\n"
-         f"VERSCHIEBUNG = {VERSCHIEBUNG} mm | LEDBREITE = {LEDBREITE} mm",
+         f"VERSCHIEBUNG = {VERSCHIEBUNG} mm | LED-BREITE = {LEDBREITE} mm",
     font=("Arial", 8))
 label_vorgaben.grid(row=4, column=0, columnspan=4, pady=5)
 
