@@ -60,7 +60,7 @@ Die erstellten Vorlagen können gespeichert, wieder geladen und in verschiedene 
 
 ---
 
-# Trennsteg Generator – Anleitung
+# Trennsteg Generator V1.3 – Anleitung
 
 Dieses Programm erstellt Vorschauen und DXF-Dateien für Trennstege (z. B. für IKEA-Rahmen).
 
@@ -91,7 +91,8 @@ Hinweis: Dezimalzahlen können mit Punkt oder Komma eingegeben werden.
 
 * Senkrecht (Standard)
 * Waagerecht
-
+* Möglichkeit eine Aussparung für Aufgeklebte LED-Stripes vorzusehen
+* 
 ## 4. Vorschau anzeigen
 
 * Klicke auf "Vorschau"
@@ -111,6 +112,8 @@ Hinweis: Dezimalzahlen können mit Punkt oder Komma eingegeben werden.
   * Außenrahmen
   * Mittellinie
   * Schlitze
+  * Ggf. Aussparungen
+  * 
 * Kann in AutoCAD oder LibreCAD geöffnet werden
 
 ## 6. Einstellungen ändern
@@ -121,6 +124,7 @@ Hinweis: Dezimalzahlen können mit Punkt oder Komma eingegeben werden.
   * Schlitzabstand \[mm]
   * Anzahl Schlitze
   * Verschiebung \[mm] (bei waagerechter Position)
+  * Breite des LED-Stripes Höhe immer 1mm
 
 Optionen:
 
