@@ -35,7 +35,7 @@ SCHLITZABSTAND = 16.6666  # mm Abstand Mitte -> Mitte
 ANZAHL_SCHLITZE = 12      # Anzahl der Schlitze für Gitter  
 VERSCHIEBUNG = 8.3333     # mm für "Waagerecht"-Option
 position = "Senkrecht"    # Radiobutton Auswahl
-TRENNSTEGHOEHE = 44.8     # mm Höhe der Trennstege
+TRENNSTEGHOEHE = 45.25    # mm Höhe der Trennstege
 LEDBREITE = 10.0          # mm Breite der Aussparung für LED Strip  
 
 # -----------------------------
@@ -515,7 +515,7 @@ Pmw.Balloon(root).bind(entry_laenge, "Hier die Länge des Trennstegs in mm einge
 tk.Label(root, text="Höhe [mm]").grid(row=2, column=0, sticky="e")
 entry_hoehe = tk.Entry(root)
 entry_hoehe.grid(row=2, column=1)
-entry_hoehe.insert(0, "44.8")
+entry_hoehe.insert(0, TRENNSTEGHOEHE)
 Pmw.Balloon(root).bind(entry_hoehe, "Hier die Höhe des Trennstegs in mm eingeben")
 
 tk.Label(root, text="Schlitzbreite [mm]").grid(row=3, column=0, sticky="e")
